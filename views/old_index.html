@@ -1,0 +1,33 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+  {% for repo in repos %}
+    <h3><a href="{{ repo.url }}">{{ repo.title }}</a></h3>
+
+    <h5>Pull Requests</h5>
+    <ul>
+      {% for request in repo.pullRequests %}
+        {{ listItem(request, { li: 'pull-request' }) }}
+      {% endfor %}
+    </ul>
+
+    <h5>Issues</h5>
+    <ul>
+      {% for issue in repo.issues %}
+        {{ listItem(issue, { li: 'issue' }) }}
+      {% endfor %}
+    </ul>
+  {% endfor %}
+
+  <script>
+    window.repos = {{ repos | json | safe }};
+  </script>
+{% endblock %}
+
+{% macro listItem(data, extraClasses) %}
+  <li class="list-item {{ extraClasses.li }}">
+    <img class="profile-image" src="{{ data.user.avatar_url }}" />{#
+  #}<h6 class="title"><a class="username" href="{{ data.user.html_url }}">{{ data.user.login }}</a>: <a href="{{ data.html_url }}">{{ data.title }}</a>
+    <p>{{ data.created_at | date('MMMM Do, YYYY') }}</p>
+  </h6>
+  </li>
+{% endmacro %}
