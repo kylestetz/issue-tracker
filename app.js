@@ -47,6 +47,6 @@ mongo({});
 require('./routes')(app);
 
 // run the server
-http.createServer(app).listen(3000, function(){
-  console.log('The node server is running at http://localhost:3000');
+http.createServer(app).listen(3003, function(){
+  console.log('The node server is running at http://localhost:3003');
 });
