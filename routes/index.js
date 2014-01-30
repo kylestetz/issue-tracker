@@ -84,6 +84,8 @@ module.exports = function(app) {
           // now we make a hook in that repo.
           github.repos.createHook({
             name: 'web',
+            user: user,
+            repo: repo,
             active: true,
             events: [
               "issues",
