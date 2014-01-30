@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   font: 20px "Andale Mono", Helvetica, Arial, sans-serif;
@@ -21,6 +24,7 @@ h4,
 h5,
 h6 {
   color: #212121;
+  margin: 0.5em 0;
 }
 p {
   margin: 0;
@@ -82,4 +86,36 @@ ul {
 }
 .username:hover {
   color: #6da1d4;
+}
+input {
+  outline: none;
+  border: none;
+  padding: 4px;
+  font: 20px "Andale Mono", Helvetica, Arial, sans-serif;
+}
+.triangle {
+  display: inline-block;
+  vertical-align: baseline;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 10px solid #212121;
+  transition: border-color 0.2s;
+  transition: transform 0.2s;
+  -webkit-transition: -webkit-transform 0.2s;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.triangle.open {
+  border-left-color: #6e6e6e;
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+}
+.repo-contents {
+  height: auto;
+  overflow: hidden;
+}
+.repo-contents.collapsed {
+  height: 0;
 }

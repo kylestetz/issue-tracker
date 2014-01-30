@@ -1,10 +1,12 @@
 // beauteous color palette
-@dark-green: #44a069;
-@light-green: #45b873;
-@red: #ca7a57;
-@orange: #ccb05a;
-@lime: #b8ce5d;
 @dark: #212121;
+@red: lighten(#a70030, 10%);
+@blue: #326ea9;
+
+*
+{
+  box-sizing: border-box;
+}
 
 body
 {
@@ -17,16 +19,19 @@ body
 }
 
 a {
-  color: lighten(#a70030, 10%);
+  color: @red;
   text-decoration: none;
   transition: color 0.1s;
   &:hover
   {
-    color: lighten(#a70030, 30%);
+    color: lighten(@red, 20%);
   }
 }
 
-h1,h2,h3,h4,h5,h6 { color: @dark; }
+h1,h2,h3,h4,h5,h6 {
+  color: @dark;
+  margin: 0.5em 0;
+}
 p {
   margin: 0;
   margin-top: 4px;
@@ -87,10 +92,10 @@ ul {
 
 .username
 {
-  color: #326ea9;
+  color: @blue;
   &:hover
   {
-    color: lighten(#326ea9, 20%);
+    color: lighten(@blue, 20%);
   }
 }
 
@@ -100,4 +105,43 @@ input
   border: none;
   padding: 4px;
   font: 20px "Andale Mono", Helvetica, Arial, sans-serif;
+}
+
+.triangle
+{
+  display: inline-block;
+  vertical-align: baseline;
+  width: 0;
+  height: 0;
+
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 10px solid @dark;
+
+  transition: border-color 0.2s;
+  transition: transform 0.2s;
+  -webkit-transition: -webkit-transform 0.2s;
+
+  margin-right: 10px;
+  cursor: pointer;
+
+  &.open
+  {
+    border-left-color: lighten(@dark, 30%);
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+  }
+}
+
+// ===============================
+
+.repo-contents
+{
+  height: auto;
+  overflow: hidden;
+
+  &.collapsed
+  {
+    height: 0;
+  }
 }

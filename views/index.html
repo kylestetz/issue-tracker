@@ -2,21 +2,33 @@
 {% block content %}
   <a href="/setup">setup</a>
   {% for repo in repos %}
-    <h3><a href="{{ repo.url }}">{{ repo.title }}</a></h3>
+    <div class="repo">
+      <h3 class="repo-title"><span class="triangle"></span> <a href="{{ repo.url }}">{{ repo.title }}</a></h3>
 
-    <h5>Pull Requests</h5>
-    <ul>
-      {% for request in repo.pullRequests %}
-        {{ listItem(request, { li: 'pull-request' }) }}
-      {% endfor %}
-    </ul>
+      <div class="repo-contents collapsed">
+        {% if repo.pullRequests.length %}
+          <h5>Pull Requests</h5>
+          <ul>
+            {% for request in repo.pullRequests %}
+              {{ listItem(request, { li: 'pull-request' }) }}
+            {% endfor %}
+          </ul>
+        {% endif %}
 
-    <h5>Issues</h5>
-    <ul>
-      {% for issue in repo.issues %}
-        {{ listItem(issue, { li: 'issue' }) }}
-      {% endfor %}
-    </ul>
+        {% if repo.issues.length %}
+          <h5>Issues</h5>
+          <ul>
+            {% for issue in repo.issues %}
+              {{ listItem(issue, { li: 'issue' }) }}
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if not repo.pullRequests.length and not repo.issues.length %}
+          <h5>No pull requests or issues at the moment.</h5>
+        {% endif %}
+      </div>
+    </div>
   {% endfor %}
 
   <script>
