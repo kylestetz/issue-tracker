@@ -6,8 +6,7 @@ var config = require('./../config');
 
 var GitHubApi = require("github");
 var github = new GitHubApi({
-  version: "3.0.0",
-  debug: true
+  version: "3.0.0"
 });
 
 github.authenticate({
@@ -26,7 +25,7 @@ module.exports = function(app) {
     // got something: figure out what repo it came from
     var user = req.body.repository.owner.login;
     var repoName = req.body.repository.name;
-    Repos.find({ title: repoName, user: user }, function(err, result) {
+    Repo.find({ title: repoName, user: user }, function(err, result) {
       if(err || !result.length) {
         console.log('couldnt find a repo at ' + user + '/' + repoName);
         return res.send('');
