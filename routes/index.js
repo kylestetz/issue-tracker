@@ -36,7 +36,7 @@ module.exports = function(app) {
       if(req.body.issue) {
         github.issues.repoIssues({
           user: user,
-          repo: repo,
+          repo: repoName,
           state: 'open'
         }, function(err, results) {
           if(err) { console.log('error getting updated issues.'); return res.send(''); };
@@ -53,7 +53,7 @@ module.exports = function(app) {
       else if(req.body.pull_request) {
         github.pullRequests.getAll({
           user: user,
-          repo: repo,
+          repo: repoName,
           state: 'open'
         }, function(err, results) {
           if(err) { console.log('error getting updated pull requests.'); return res.send(''); };
