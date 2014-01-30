@@ -23,19 +23,51 @@ module.exports = function(app) {
   });
 
   app.post('/webhook', function(req, res) {
-    // figure out what the post hook was for and save it
-    console.log('got a hook!');
-    var hook = new Hook({
-      createdAt: new Date(),
-      data: req.body
-    });
+    // got something: figure out what repo it came from
+    var user = req.body.repository.owner.login;
+    var repoName = req.body.repository.name;
+    Repos.find({ title: repoName, user: user }, function(err, result) {
+      if(err || !result.length) {
+        console.log('couldnt find a repo at ' + user + '/' + repoName);
+        return res.send('');
+      }
 
-    hook.markModified('data');
-
-    hook.save(function(err) {
-      console.log('saved a hook, go check it out.');
-      return res.send('');
-    });
+      var repo = results[0];
+      // is it an issue we just got?
+      if(req.body.issue) {
+        github.issues.repoIssues({
+          user: user,
+          repo: repo,
+          state: 'open'
+        }, function(err, results) {
+          if(err) { console.log('error getting updated issues.'); return res.send(''); };
+          repo.issues = results;
+          repo.markModified('issues');
+          repo.save(function(err) {
+            console.log('error saving changes to repo.');
+            // DONEZO
+            return res.send('');
+          });
+        });
+      }
+      // or a pull request?
+      else if(req.body.pull_request) {
+        github.pullRequests.getAll({
+          user: user,
+          repo: repo,
+          state: 'open'
+        }, function(err, results) {
+          if(err) { console.log('error getting updated pull requests.'); return res.send(''); };
+          repo.pullRequests = results;
+          repo.markModified('pullRequests');
+          repo.save(function(err) {
+            console.log('error saving changes to repo.');
+            // DONEZO
+            return res.send('');
+          });
+        });
+      }
+    })
   });
 
   // NEW REPO
