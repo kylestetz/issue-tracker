@@ -3,7 +3,7 @@
 }
 body {
   margin: 0;
-  font: 20px "Andale Mono", Helvetica, Arial, sans-serif;
+  font: 20px Helvetica, Arial, sans-serif;
   background-color: #f4f4f4;
   color: #212121;
   font-weight: normal;
@@ -69,6 +69,7 @@ ul {
 .list-item {
   padding: 0.5em;
   margin-bottom: 1em;
+  border: 2px solid #eee;
   max-width: 900px;
 }
 .list-item:nth-child(odd) {
@@ -91,7 +92,7 @@ input {
   outline: none;
   border: none;
   padding: 4px;
-  font: 20px "Andale Mono", Helvetica, Arial, sans-serif;
+  font: 20px Helvetica, Arial, sans-serif;
 }
 .triangle {
   display: inline-block;
