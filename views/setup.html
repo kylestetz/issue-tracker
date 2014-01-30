@@ -1,11 +1,19 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
+  <a href="/">back</a>
   <h4>setup</h4>
 
   <form action="/new-repo" method="POST">
     <input type="text" name="repo" />
     <input type="submit" />
   </form>
+
+  <h4>Repos</h4>
+  <h6>Warning: remove currently doesn't deal with post-hooks. Remove those manually.</h6>
+
+  {% for repo in repos %}
+    <p>{{ repo.title }} <a href="/remove/{{ repo._id }}" class="x-button">&times;</a></p>
+  {% endfor %}
 
 {% endblock %}

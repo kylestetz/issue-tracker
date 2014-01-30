@@ -27,7 +27,19 @@ module.exports = function(app) {
   });
 
   app.get('/setup', function(req, res) {
-    return res.render('setup.html');
+    Repo.find({}, function(err, repos) {
+      if(err) {
+        return res.json(err);
+      }
+      return res.render('setup.html', { repos: repos });
+    });
+  });
+
+  app.get('/remove/:id', function(req, res) {
+    Repo.remove({ _id: req.params.id }, function(err) {
+      if(err) { res.json(err); }
+      res.redirect('/setup');
+    });
   });
 
   app.post('/webhook', function(req, res) {
