@@ -22,7 +22,7 @@ module.exports = function(app) {
       if(err) {
         return res.json(err);
       }
-      return res.render('index.html', repos);
+      return res.render('index.html', { repos: repos });
     });
   });
 
