@@ -2,16 +2,16 @@ var async = require('async');
 var model = require('./../model/repo.js');
 var Repo = model.Repo;
 var Hook = model.Hook;
+var config = require('./../config');
 
 var GitHubApi = require("github");
 var github = new GitHubApi({
   version: "3.0.0"
-  // debug: true
 });
 
 github.authenticate({
     type: "oauth",
-    token: "1f43c2776e74d5844cb54c1ae5f78d1e33b44559"
+    token: config.githubOAuthToken
 });
 
 module.exports = function(app) {
@@ -21,7 +21,7 @@ module.exports = function(app) {
     return res.render('index.html', {});
   });
 
-  app.post('/hook', function(req, res) {
+  app.post('/webhook', function(req, res) {
     // figure out what the post hook was for and save it
     console.log('got a hook!');
     var hook = new Hook({
@@ -44,7 +44,11 @@ module.exports = function(app) {
     var user = req.body.repo.split('/')[0];
     var repo = req.body.repo.split('/')[1];
 
-    var newRepo = new Repo({ title: repo, url: 'https://github.com/' + user + '/' + repo });
+    var newRepo = new Repo({
+      title: repo,
+      user: user,
+      url: 'https://github.com/' + user + '/' + repo
+  });
 
     if(!req.body.repo) {
       return res.send('that repo didnt work');
@@ -76,7 +80,31 @@ module.exports = function(app) {
         newRepo.save(function(err) {
           if(err) { console.log('couldnt save!!'); res.json(err); }
 
-          res.redirect('/');
+          // now we make a hook in that repo.
+          github.repos.createHook({
+            name: 'web',
+            active: true,
+            events: [
+              "issues",
+              "issue_comment",
+              "pull_request",
+              "pull_request_review_comment"
+            ],
+            config: {
+              url: config.webhookCallbackUrl,
+              content_type: 'json'
+            }
+          }, function(err, results) {
+            if(err) {
+              return res.json({
+                special_alert: 'saved data, but the webhook didn\'t work',
+                err: err
+              });
+            }
+            console.log('set up the hook!');
+            res.redirect('/');
+          });
+
         });
 
       });
