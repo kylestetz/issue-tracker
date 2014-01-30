@@ -43,7 +43,7 @@ module.exports = function(app) {
           repo.issues = results;
           repo.markModified('issues');
           repo.save(function(err) {
-            console.log('error saving changes to repo.');
+            if(err) { console.log('error saving changes to repo.'); }
             // DONEZO
             return res.send('');
           });
@@ -60,7 +60,7 @@ module.exports = function(app) {
           repo.pullRequests = results;
           repo.markModified('pullRequests');
           repo.save(function(err) {
-            console.log('error saving changes to repo.');
+            if(err) { console.log('error saving changes to repo.'); }
             // DONEZO
             return res.send('');
           });
