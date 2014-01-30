@@ -6,7 +6,8 @@ var config = require('./../config');
 
 var GitHubApi = require("github");
 var github = new GitHubApi({
-  version: "3.0.0"
+  version: "3.0.0",
+  debug: true
 });
 
 github.authenticate({
