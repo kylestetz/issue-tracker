@@ -1,0 +1,11 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+  <h4>setup</h4>
+
+  <form action="/new-repo" method="POST">
+    <input type="text" name="repo" />
+    <input type="submit" />
+  </form>
+
+{% endblock %}

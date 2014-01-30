@@ -18,7 +18,16 @@ module.exports = function(app) {
 
   app.get('/', function(req, res) {
     // get stuff from the db
-    return res.render('index.html', {});
+    Repo.find({}, function(err, repos) {
+      if(err) {
+        return res.json(err);
+      }
+      return res.render('index.html', repos);
+    });
+  });
+
+  app.get('/setup', function(req, res) {
+    return res.render('setup.html');
   });
 
   app.post('/webhook', function(req, res) {
