@@ -31,7 +31,7 @@ module.exports = function(app) {
         return res.send('');
       }
 
-      var repo = results[0];
+      var repo = result[0];
       // is it an issue we just got?
       if(req.body.issue) {
         github.issues.repoIssues({
