@@ -3,7 +3,7 @@
   <a href="/setup">setup</a>
   {% for repo in repos %}
     <div class="repo">
-      <h3 class="repo-title"><span class="triangle"></span> <a href="{{ repo.url }}">{{ repo.title }}</a></h3>
+      <h3 class="repo-title"><span class="triangle"></span> <span class="repo-title-text pointer">{{ repo.title }}</span> <a href="{{ repo.url }}">(github)</a></h3>
 
       <div class="repo-contents collapsed">
         {% if repo.pullRequests.length %}
