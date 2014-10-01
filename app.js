@@ -1,5 +1,5 @@
 // bring in the node modules we're going to use
-var express = require('express')
+var express = require('express');
 var http = require('http');
 var path = require('path');
 var nunjucks = require('nunjucks');
@@ -34,7 +34,7 @@ app.configure( function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(require('less-middleware')({ src: __dirname + '/public' }));
+  app.use(require('less-middleware')(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.errorHandler());
 });
@@ -43,9 +43,15 @@ var mongo = require('./db');
 mongo({});
 
 //  routes/index.js is where all the fun happens
-require('./routes')(app);
+//require('./routes')(app);
 
 // run the server
+/*
 http.createServer(app).listen(3003, function(){
   console.log('The node server is running at http://localhost:3003');
 });
+*/
+var server = http.createServer(app);
+var io = require('socket.io').listen(server); //pass a http.Server instance
+require('./routes')(app, io);
+server.listen(3003);

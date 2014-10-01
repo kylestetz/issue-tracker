@@ -8,7 +8,7 @@ module.exports = function(options) {
       'username': '',
       'password': '',
       'name': '',
-      'db': 'issue-tracker'
+      'db': 'issue-tracker-2'
     }
   };
 

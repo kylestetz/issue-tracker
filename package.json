@@ -12,6 +12,7 @@
     "github" : "0.1.x",
     "async": "*",
     "moment": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "socket.io": "*"
   }
 }

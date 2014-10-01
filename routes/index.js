@@ -14,7 +14,13 @@ github.authenticate({
     token: config.githubOAuthToken
 });
 
-module.exports = function(app) {
+module.exports = function(app, io) {
+  io.on('connection', function (socket) {
+    socket.emit('news', { hello: 'world' });
+    socket.on('my other event', function (data) {
+      console.log(data);
+    });
+  });
 
   app.get('/', function(req, res) {
     // get stuff from the db
@@ -43,6 +49,14 @@ module.exports = function(app) {
   });
 
   app.post('/webhook', function(req, res) {
+    console.log("-----------------------------------");
+    //socket.emit('my other event', { webhook: 'test' });
+    var socket = io.connect('http://localhost');
+    socket.on('news', function (data) {
+      console.log(data);
+      socket.emit('my other event', { my: 'data' });
+    });
+
     // got something: figure out what repo it came from
     var user = req.body.repository.owner.login;
     var repoName = req.body.repository.name;
